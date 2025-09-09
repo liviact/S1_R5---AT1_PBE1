@@ -5,12 +5,16 @@ const PORT = 8081;
 
 app.use(express.json());
 
-app.post('/informacoes', (req, res) => {
+//solicitando os números e tratando caso não sejam válidos
+app.post('/soma', (req, res) => {
     try {
-       const {informacoes: {nome, idade, timeFavorito}} = req.body;
-       console.log(nome, idade, timeFavorito);
-    res.status(201).json({message: `olá, ${nome}, você tem ${idade} anos e seu time do coração 
-        é ${timeFavorito}. ótima escolha!`});
+       const {soma: {num1, num2, num3}} = req.body;
+       console.log(num1, num2, num3);
+       if (isNaN(num1) || isNaN(num2) || isNaN(num3)) {
+            return res.status(404).send("valor inválido!");
+        } 
+    let resultado = parseFloat(num1)+parseFloat(num2)+parseFloat(num3)
+    res.status(201).json({message: `olá, a soma dos números é  ${resultado}`});
     } catch (error) {
         console.error(`erro:`, error)
         res.status(500).json({errorMessage: error});
