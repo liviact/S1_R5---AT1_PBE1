@@ -1,19 +1,21 @@
 const express = require('express');
-const { time } = require('node:console');
 const app = express();
 const PORT = 8081;
 
 app.use(express.json());
 
-app.post('/informacoes', (req, res) => {
+app.post('/login', (req, res) => {
     try {
-       const {informacoes: {nome, idade, timeFavorito}} = req.body;
-       console.log(nome, idade, timeFavorito);
-    res.status(201).json({message: `olá, ${nome}, você tem ${idade} anos e seu time do coração 
-        é ${timeFavorito}. ótima escolha!`});
+        const { login: { usuario, senha } } = req.body;
+    
+        if (usuario.toLowerCase() === "livia.caetano" && Number(senha) === 1234) {
+            res.status(201).json({ message: `usuário e senha corretos!` });
+        } else { 
+            (res.status(401).json ({errorMessage: `usuário ou senha inválidos` })); 
+        }
     } catch (error) {
         console.error(`erro:`, error)
-        res.status(500).json({errorMessage: error});
+        res.status(500).json({ errorMessage: error });
     }
 });
 
